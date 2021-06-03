@@ -1,4 +1,5 @@
-﻿using Persistence.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using Persistence.Context;
 using Persistence.Models.Roles;
 using Persistence.Repositories.GenericRepositories;
 using Persistence.Repositories.PositionRepository;
@@ -7,27 +8,23 @@ namespace Persistence.UnitOfWorks
 {
     public class UnitOfWork : IUnitOfWork
     {
-        public MelodiveMusicDbContext dbContext;
-        public GenericRepository<Role, long> RoleRepository;
-        public PositionRepository PositionRepository;
+        public MelodiveMusicDbContext DbContext { get; }
+        public IGenericRepository<Role, long> RoleRepository { get; } 
+        public IPositionRepository PositionRepository { get; }
 
-
-        public UnitOfWork(MelodiveMusicDbContext dbContext,
-            IPositionRepository positionRepository,
-            IGenericRepository<Role, long> roleRepository)
+        public UnitOfWork(MelodiveMusicDbContext dbContext, IGenericRepository<Role, long> roleRepository, IPositionRepository positionRepository)
         {
-            this.dbContext = dbContext;
-            PositionRepository = positionRepository as PositionRepository;
-            RoleRepository = roleRepository as GenericRepository<Role, long>;
+            DbContext = dbContext;
+            RoleRepository = roleRepository;
+            PositionRepository = positionRepository;
         }
-
         public void Dispose()
         {
-            dbContext.Dispose();
+            DbContext.Dispose();
         }
         public void Save()
         {
-            dbContext.SaveChanges();
+            DbContext.SaveChanges();
         }
 
 

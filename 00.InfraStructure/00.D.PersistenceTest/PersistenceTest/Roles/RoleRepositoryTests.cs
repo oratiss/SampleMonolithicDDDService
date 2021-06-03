@@ -1,38 +1,30 @@
 ﻿using FluentAssertions;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using Persistence.Context;
 using Persistence.Models.Roles;
 using Persistence.Repositories.GenericRepositories;
-using Persistence.UnitOfWorks;
 using PersistenceTest.Roles.Extensions;
-using System;
-using Microsoft.EntityFrameworkCore;
-using Xunit;
 using Utilities.SharedTools.Assertions;
+using Xunit;
 
 namespace PersistenceTest.Roles
 {
-    public class RoleRepositoryTests : IDisposable
+    public class RoleRepositoryTests
     {
-        private readonly IGenericRepository<Role, int> sut;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IGenericRepository<Role, long> sut;
+        
         public RoleRepositoryTests()
         {
-            _unitOfWork ??= new UnitOfWork();
-            sut = new GenericRepository<Role, int>(_unitOfWork);
+            var dbContext = new MelodiveMusicDbContext();
+            sut = new GenericRepository<Role, long>(dbContext);
         }
 
-        public void Dispose()
-        {
-            _unitOfWork.Context.Dispose();
-            sut.Dispose();
-        }
-
+      
         [Fact]
         public void GetAll_Method_Of_Role_RepositoryService_Should_Get_All_RoleEntities()
         {
             //arrange
-            var (someRole, anotherRole) = this.AddSomeRoles(sut);
+            var (someRole, anotherRole) = this.AddSomeAndAnotherRoles(sut);
 
             //act
             var roles = sut.GetAll();
@@ -60,7 +52,7 @@ namespace PersistenceTest.Roles
         public void Get_Method_Of_Role_RepositoryService_Should_Get_RoleEntity()
         {
             //arrange
-            var (_, anotherRole) = this.AddSomeRoles(sut);
+            var (_, anotherRole) = this.AddSomeAndAnotherRoles(sut);
 
 
             //act
@@ -81,11 +73,12 @@ namespace PersistenceTest.Roles
         public void Add_Method_Of_Role_RepositoryService_Should_Add_RoleEntity()
         {
             //arrange
-            this.AddSomeRoles(sut);
+            this.AddSomeAndAnotherRoles(sut);
             var someAnotherRole = new PersistenceRoleTestBuilder().AddSomeAnotherRole();
 
             //act
             var result = sut.Add(someAnotherRole, true);
+           
 
             //assert
             var expected = new PersistenceRoleTestBuilder()
@@ -102,7 +95,7 @@ namespace PersistenceTest.Roles
         public void DeleteById_Method_Of_Role_RepositoryService_Should_Delete_RoleEntity()
         {
             //arrange
-            var (someRole, anotherRole) = this.AddSomeRoles(sut);
+            var (someRole, anotherRole) = this.AddSomeAndAnotherRoles(sut);
 
             //act
             sut.Delete(anotherRole.Id, true);
@@ -122,7 +115,7 @@ namespace PersistenceTest.Roles
         public void Delete_Method_Of_Role_RepositoryService_Should_Delete_RoleEntity()
         {
             //arrange
-            var (someRole, anotherRole) = this.AddSomeRoles(sut);
+            var (someRole, anotherRole) = this.AddSomeAndAnotherRoles(sut);
 
             //act
             sut.Delete(anotherRole, true);
@@ -142,7 +135,7 @@ namespace PersistenceTest.Roles
         public void Update_Method_Of_Role_RepositoryService_Should_Update_RoleEntity()
         {
             //arrange
-            var (someRole, _) = this.AddSomeRoles(sut);
+            var (someRole, _) = this.AddSomeAndAnotherRoles(sut);
             var someAnotherRole = new PersistenceRoleTestBuilder().AddSomeAnotherRole();
 
             var updatingRole = new PersistenceRoleTestBuilder()

@@ -8,10 +8,10 @@ namespace Persistence.UnitOfWorks
     {
         public static IServiceCollection AddUnitOfWork(this IServiceCollection services)
         {
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped(typeof(IGenericSearchableRepository<,>), typeof(GenericSearchableRepository<,>));
             services.AddScoped(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
             services.AddScoped<IPositionRepository, PositionRepository>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return services;
         }

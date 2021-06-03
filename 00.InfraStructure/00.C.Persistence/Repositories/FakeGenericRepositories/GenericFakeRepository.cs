@@ -1,72 +1,65 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Persistence.Context;
 using Persistence.Repositories.GenericRepositories;
 using Utilities.BaseEntities;
 
 namespace Persistence.Repositories.FakeGenericRepositories
 {
-    public class GenericFakeRepository<TDbEntity, TKey> : IGenericRepository<TDbEntity, TKey>
-        where TDbEntity : BaseEntity<TKey> where TKey : struct
+    public class GenericFakeRepository<TDbEntity, TKey> : IGenericRepository<TDbEntity, TKey> where TDbEntity : BaseEntity<TKey> where TKey : struct
     {
-        private readonly IList<TDbEntity> _entities;
-
+        public List<TDbEntity> Repository { get; set; }
+        
         public GenericFakeRepository()
         {
-            _entities = new List<TDbEntity>();
+            Repository = new List<TDbEntity>();
         }
 
         public GenericFakeRepository(TDbEntity entity)
         {
-            _entities = new List<TDbEntity>();
-            _entities.Add(entity);
+            Repository = new List<TDbEntity>();
+            Repository.Add(entity);
         }
 
         public TDbEntity Get(TKey id)
         {
-            return _entities.SingleOrDefault(t => t.Id.Equals(id));
+            return Repository.SingleOrDefault(t => t.Id.Equals(id));
         }
+
+        public MelodiveMusicDbContext DbContext { get; set; }
 
         public IQueryable<TDbEntity> GetAll()
         {
-            return _entities.AsQueryable();
+            return Repository.AsQueryable();
         }
-        public TDbEntity Add(TDbEntity entity)
+        public TDbEntity Add(TDbEntity entity, bool? doCommit = null)
         {
-            var existingEntity = _entities.SingleOrDefault(e => e.Id.Equals(entity.Id));
-            if (existingEntity==null)
-            {
-                 _entities.Add(entity);
-                 return Get(entity.Id);
-            }
-
-            throw new InvalidOperationException("there is already a similar existing item in repository.");
+            Repository.Add(entity);
+            return entity;
         }
 
-        public void Delete(TKey id)
+        public void Delete(TKey id, bool? doCommit = null)
         {
-            var entity = Get(id);
-            Delete(entity);
+            TDbEntity entity = Get(id);
+            Repository.Remove(entity);
         }
 
-        public void Delete(TDbEntity entity)
+        public void Delete(TDbEntity entity, bool? doCommit = null)
         {
-            _entities.Remove(entity);
+            Delete(entity.Id, doCommit);
         }
 
-
-        public TDbEntity Update(TDbEntity entity)
+        public TDbEntity Update(TDbEntity entity, bool? doCommit = null)
         {
-            var existingEntity = _entities.AsQueryable().SingleOrDefault(e => e.Id.Equals(entity.Id));
-            if (existingEntity != null)
-            {
-                _entities.Remove(existingEntity);
-                _entities.Add(entity);
-                return Get(entity.Id);
-            }
-
-            throw new InvalidOperationException("there is no wanted entity to be updated.");
+            var removingEntity = Get(entity.Id);
+            Repository.Remove(removingEntity);
+            Repository.Add(entity);
+            return entity;
         }
 
-     }
+        public void Save()
+        {
+            throw new System.NotImplementedException();
+        }
+    }
 }

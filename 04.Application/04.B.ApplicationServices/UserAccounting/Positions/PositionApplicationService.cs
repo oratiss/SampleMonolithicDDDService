@@ -32,14 +32,14 @@ namespace ApplicationService.UserAccounting.Positions
         public ApplicationPositionDto Add(ApplicationPositionDto applicationPositionDto, bool? doCommit=null)
         {
             var persistencePosition = this.CheckDomainPositionServiceRulesAndMapToPersistence(mapper, applicationPositionDto);
-            persistencePosition = UnitOfWork.PositionRepository.Add(persistencePosition);
+            persistencePosition = UnitOfWork.PositionRepository.Add(persistencePosition, true);
             if (doCommit==true) UnitOfWork.Save();
             return mapper.Map<ApplicationPositionDto>(persistencePosition);
         }
 
         public void Delete(int id, bool? doCommit=null)
         {
-            UnitOfWork.PositionRepository.Delete(id);
+            UnitOfWork.PositionRepository.Delete(id, true);
             if (doCommit==true) UnitOfWork.Save();
         }
 
@@ -51,7 +51,7 @@ namespace ApplicationService.UserAccounting.Positions
         public ApplicationPositionDto Update(ApplicationPositionDto applicationPositionDto, bool? doCommit=null)
         {
             var persistencePosition = this.CheckDomainPositionServiceRulesAndMapToPersistence(mapper, applicationPositionDto);
-            persistencePosition = UnitOfWork.PositionRepository.Update(persistencePosition);
+            persistencePosition = UnitOfWork.PositionRepository.Update(persistencePosition, true);
             if (doCommit == true) UnitOfWork.Save();
             return mapper.Map<ApplicationPositionDto>(persistencePosition);
         }

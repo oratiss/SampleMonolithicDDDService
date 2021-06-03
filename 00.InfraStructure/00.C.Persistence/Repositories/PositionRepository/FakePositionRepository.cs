@@ -1,21 +1,22 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Persistence.Context;
+using Persistence.Models.Positions;
+using Persistence.Models.Roles;
+using Persistence.Repositories.FakeGenericRepositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore;
-using Persistence.Models.Positions;
-using Persistence.Models.Roles;
-using Persistence.Repositories.GenericRepositories;
 
 
 namespace Persistence.Repositories.PositionRepository
 {
-    public class FakePositionRepository : IPositionRepository
+    public class FakePositionRepository 
     {
-        public IGenericRepository<Role, long> RoleRepository { get; set; }
+        public GenericFakeRepository<Role, long> RoleRepository { get; set; }
         private readonly IList<Position> _positionRepository;
 
-        public FakePositionRepository(IGenericRepository<Role, long> roleRepository)
+        public FakePositionRepository(GenericFakeRepository<Role, long> roleRepository)
         {
             _positionRepository = new List<Position>();
             this.RoleRepository = roleRepository;
@@ -33,6 +34,8 @@ namespace Persistence.Repositories.PositionRepository
         }
 
 
+        public MelodiveMusicDbContext DbContext { get; set; }
+
         public IQueryable<Position> GetAll()
         {
             return _positionRepository.AsQueryable();
@@ -43,9 +46,9 @@ namespace Persistence.Repositories.PositionRepository
             return _positionRepository.SingleOrDefault(p => p.Id == id);
         }
 
-        public Position Add(Position position)
+        public Position Add(Position position, bool? doCommit=null)
         {
-            var existingPosition = _positionRepository.SingleOrDefault(e => e.Id.Equals(position.Id));
+           var existingPosition = _positionRepository.SingleOrDefault(e => e.Id.Equals(position.Id));
             if (existingPosition == null)
             {
                 var existingRole = RoleRepository.Get(position.RoleId);
@@ -59,15 +62,15 @@ namespace Persistence.Repositories.PositionRepository
             throw new InvalidOperationException("There is already a similar existing position in repository.");
         }
 
-        public void Delete(int id)
+        public void Delete(int id, bool? doCommit = null)
         {
-            var existingPosition = _positionRepository.SingleOrDefault(e => e.Id.Equals(id));
+           var existingPosition = _positionRepository.SingleOrDefault(e => e.Id.Equals(id));
             if (existingPosition == null)
                 throw new InvalidOperationException("There is no position in repository with given id to be deleted.");
             Delete(existingPosition);
         }
 
-        public void Delete(Position position)
+        public void Delete(Position position, bool? doCommit = null)
         {
             var existingPosition = _positionRepository.SingleOrDefault(e => e.Equals(position));
             if (existingPosition == null)
@@ -75,7 +78,7 @@ namespace Persistence.Repositories.PositionRepository
             _positionRepository.Remove(existingPosition);
         }
 
-        public Position Update(Position position)
+        public Position Update(Position position, bool? doCommit)
         {
             var existingPosition = _positionRepository.SingleOrDefault(e => e.Id.Equals(position.Id));
             if (existingPosition == null)
@@ -90,5 +93,9 @@ namespace Persistence.Repositories.PositionRepository
             throw new InvalidOperationException("There is no similar role in role repository.");
         }
 
+        public void Save()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

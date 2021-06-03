@@ -1,7 +1,7 @@
 ﻿using ApplicationService.BaseApplicationServices;
 using AutoMapper.QueryableExtensions;
 using Domain.UserAccounting.Roles;
-using Persistence.UnitOfWorks;
+using Persistence.Repositories.GenericRepositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,18 +13,17 @@ namespace ApplicationService.UserAccounting.Roles
 {
     public class ApplicationRoleService : BaseApplicationService, IApplicationRoleService
     {
-        public UnitOfWork UnitOfWork { get; set; }
-
-        public ApplicationRoleService(IUnitOfWork unitOfWork, IAutoMapperConfiguration config) : base(config)
+        private readonly GenericRepository<entityRole, long> _roleRepository;
+        public ApplicationRoleService(IGenericRepository<entityRole, long> roleRepository, IAutoMapperConfiguration config) : base(config)
         {
-            UnitOfWork = unitOfWork as UnitOfWork;
+            _roleRepository = roleRepository as GenericRepository<entityRole,long>;
         }
 
         public ApplicationRoleDto Get(long id)
         {
             try
             {
-                var role = UnitOfWork.RoleRepository.Get(id);
+                var role = _roleRepository.Get(id);
                 return mapper.Map<ApplicationRoleDto>(role);
 
             }
@@ -35,9 +34,11 @@ namespace ApplicationService.UserAccounting.Roles
             }
         }
 
+        
+
         public IEnumerable<ApplicationRoleDto> GetAll()
         {
-            var repositoryPositions = UnitOfWork.RoleRepository.GetAll();
+            var repositoryPositions = _roleRepository.GetAll();
             var applicationRoleDtos = repositoryPositions.ProjectTo<ApplicationRoleDto>(mapper.ConfigurationProvider)
                    .AsEnumerable();
             return applicationRoleDtos;
@@ -53,22 +54,22 @@ namespace ApplicationService.UserAccounting.Roles
                 .Build();
 
             var roleEntity = mapper.Map<entityRole>(domainRole);
-            var entity = UnitOfWork.RoleRepository.Add(roleEntity);
-            if (doCommit == true) UnitOfWork.Save();
+            var entity = _roleRepository.Add(roleEntity, true);
+            if (doCommit == true) _roleRepository.Save();
             return mapper.Map<ApplicationRoleDto>(entity);
         }
 
         public void Delete(long id, bool? doCommit = null)
         {
-            UnitOfWork.RoleRepository.Delete(id);
-            if (doCommit == true) UnitOfWork.Save();
+            _roleRepository.Delete(id, true);
+            if (doCommit == true) _roleRepository.Save();
 
         }
 
         public void Delete(ApplicationRoleDto applicationDto, bool? doCommit = null)
         {
-            UnitOfWork.RoleRepository.Delete(applicationDto.Id);
-            if (doCommit == true) UnitOfWork.Save();
+            _roleRepository.Delete(applicationDto.Id, true);
+            if (doCommit == true) _roleRepository.Save();
         }
 
         public ApplicationRoleDto Update(ApplicationRoleDto applicationRoleDto, bool? doCommit = null)
@@ -80,8 +81,8 @@ namespace ApplicationService.UserAccounting.Roles
                 .With(r => r.SystemDescription, applicationRoleDto.SystemDescription)
                 .Build();
             var roleEntity = mapper.Map<entityRole>(roleDomain);
-            roleEntity = UnitOfWork.RoleRepository.Update(roleEntity);
-            if (doCommit == true) UnitOfWork.Save();
+            roleEntity = _roleRepository.Update(roleEntity, true);
+            if (doCommit == true) _roleRepository.Save();
             return mapper.Map<ApplicationRoleDto>(roleEntity);
         }
     }

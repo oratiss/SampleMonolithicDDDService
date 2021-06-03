@@ -24,10 +24,10 @@ namespace ApplicationTest.UserAccounting.Roles
         public RoleApplicationTests() : base(new AutoMapperConfiguration())
         {
             _services.AddSingleton<IApplicationRoleService, ApplicationRoleService>();
-            _services.AddScoped<IGenericRepository<entityRole, int>, GenericFakeRepository<entityRole, int>>();
+            _services.AddScoped<IGenericRepository<entityRole, long>, GenericFakeRepository<entityRole, long>>();
 
             var serviceProvider = _services.BuildServiceProvider();
-            var repository = serviceProvider.GetService<IGenericRepository<entityRole, int>>();
+            var repository = serviceProvider.GetService<IGenericRepository<entityRole, long>>();
 
             sut = new ApplicationRoleService(repository, new AutoMapperConfiguration());
         }

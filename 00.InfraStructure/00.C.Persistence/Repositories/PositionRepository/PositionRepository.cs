@@ -11,14 +11,16 @@ namespace Persistence.Repositories.PositionRepository
 {
     public class PositionRepository : IPositionRepository
     {
-        public IGenericRepository<Role, long> RoleRepository { get; set; }
-        private readonly MelodiveMusicDbContext _dbContext;
+        public IGenericRepository<Role, long> RoleRepository { get; }
+
+        public MelodiveMusicDbContext DbContext { get; set; }
         private readonly DbSet<Position> _repository;
 
-        public PositionRepository(IMelodiveMusicDbContext dbContext)
+        public PositionRepository(MelodiveMusicDbContext dbContext, IGenericRepository<Role, long> roleRepository)
         {
-            _dbContext = dbContext as MelodiveMusicDbContext;
-            _repository = _dbContext.Set<Position>();
+            DbContext = dbContext;
+            _repository = DbContext.Set<Position>();
+            RoleRepository = RoleRepository;
         }
 
         //todo:
@@ -33,6 +35,7 @@ namespace Persistence.Repositories.PositionRepository
             return query.Where(predicate).AsQueryable();
         }
 
+
         public IQueryable<Position> GetAll()
         {
             return _repository.Include(p => p.Role).AsQueryable();
@@ -43,7 +46,7 @@ namespace Persistence.Repositories.PositionRepository
             return _repository.Include(p => p.Role).SingleOrDefault(t => t.Id.Equals(id));
         }
 
-        public Position Add(Position position)
+        public Position Add(Position position, bool? doCommit = null)
         {
             var existingPosition = _repository.SingleOrDefault(e => e.Id.Equals(position.Id));
             if (existingPosition == null)
@@ -52,6 +55,7 @@ namespace Persistence.Repositories.PositionRepository
                 if (existingRole != null)
                 {
                     _repository.Add(position);
+                    if (doCommit==true) Save();
                     return Get(position.Id);
                 }
                 throw new InvalidOperationException("There is no found role exists in role repository.");
@@ -59,19 +63,19 @@ namespace Persistence.Repositories.PositionRepository
             throw new InvalidOperationException("There is already a similar existing position in repository.");
         }
 
-        public void Delete(int id)
+        public void Delete(int id, bool? doCommit = null)
         {
             var existingPosition = Get(id);
-            Delete(existingPosition);
+            existingPosition.IsDeleted = true;
+            if (doCommit == true) Save();
         }
 
-        public void Delete(Position position)
+        public void Delete(Position position, bool? doCommit = null)
         {
-            position.IsDeleted = true;
-            Update(position);
+            Delete(position.Id, doCommit);
         }
 
-        public Position Update(Position position)
+        public Position Update(Position position, bool? doCommit = null)
         {
             var existingPosition = _repository.SingleOrDefault(e => e.Id.Equals(position.Id));
             if (existingPosition != null)
@@ -80,14 +84,19 @@ namespace Persistence.Repositories.PositionRepository
                 if (existingRole != null)
                 {
                     _repository.Update(position);
-                    _dbContext.Entry(existingPosition.PositionActivity).State = EntityState.Detached;
+                    DbContext.Entry(existingPosition.PositionActivity).State = EntityState.Detached;
                     existingPosition.PositionActivity.PositionId = position.Id;
-
+                    if (doCommit == true) Save();
                     return Get(position.Id);
                 }
                 throw new InvalidOperationException("There is no such role existing in role repository to be updated.");
             }
             throw new InvalidOperationException("There is no such existing position in repository to be updated.");
+        }
+
+        public void Save()
+        {
+            DbContext.SaveChanges();
         }
     }
 }

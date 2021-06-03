@@ -1,9 +1,5 @@
-﻿using System.Collections.Generic;
-using Persistence.Models.Positions;
-using Persistence.Models.Roles;
+﻿using Persistence.Models.Roles;
 using Persistence.Repositories.GenericRepositories;
-using PersistenceTest.Positions;
-using PersistenceTest.Positions.Extensions;
 using static Utilities.SharedTools.Constants.RoleConstants;
 
 namespace PersistenceTest.Roles.Extensions
@@ -40,12 +36,13 @@ namespace PersistenceTest.Roles.Extensions
                 .Build();
         }
 
-        public static (Role, Role) AddSomeRoles(this RoleRepositoryTests roleRepositoryTests, IGenericRepository<Role, int> sut)
+        public static (Role, Role) AddSomeAndAnotherRoles(this RoleRepositoryTests roleRepositoryTests, IGenericRepository<Role, long> sut)
         {
             var someRole = new PersistenceRoleTestBuilder().AddSomeRole();
             var anotherRole = new PersistenceRoleTestBuilder().AddAnotherRole();
             var firstResult = sut.Add(someRole, true);
             var secondResult = sut.Add(anotherRole, true);
+            sut.Save();
             return (firstResult, secondResult);
         }
     }

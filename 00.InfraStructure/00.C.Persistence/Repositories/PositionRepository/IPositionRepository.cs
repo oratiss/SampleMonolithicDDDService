@@ -6,6 +6,6 @@ namespace Persistence.Repositories.PositionRepository
 {
     public interface IPositionRepository:IGenericSearchableRepository<Position,int>
     {
-        public IGenericRepository<Role, long> RoleRepository { get; set; }
+        public IGenericRepository<Role, long> RoleRepository { get; }
     }
 }

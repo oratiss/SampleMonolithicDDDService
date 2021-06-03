@@ -1,5 +1,4 @@
 using ApplicationService.UserAccounting.Roles;
-using AutoMapper;
 using HSEWebApi.AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,8 +9,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Persistence.Context;
-using Persistence.Models.Roles;
-using Persistence.Repositories.GenericRepositories;
 using Persistence.UnitOfWorks;
 using Utilities.BasedSetMappers;
 
@@ -89,8 +86,8 @@ namespace HSEWebApi
             var autoMapperConfiguration=new AutoMapperConfiguration();
             autoMapperConfiguration.Configure(services);
 
-            var serviceProvider = services.BuildServiceProvider();
-            var mapper = serviceProvider.GetService<IMapper>();
+            //var serviceProvider = services.BuildServiceProvider();
+            //var mapper = serviceProvider.GetService<IMapper>();
 
             
         }

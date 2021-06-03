@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Persistence.UnitOfWorks;
+using Persistence.Context;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
@@ -11,14 +10,15 @@ namespace Persistence.Repositories.GenericRepositories
     public class GenericSearchableRepository<TDbEntity, TKey> : GenericRepository<TDbEntity, TKey>, IGenericSearchableRepository<TDbEntity, TKey>
         where TDbEntity : BaseEntity<TKey> where TKey : struct 
     {
-        public GenericSearchableRepository(IUnitOfWork unitOfWork, IServiceCollection services) : base(unitOfWork)
+
+        public GenericSearchableRepository(MelodiveMusicDbContext dbContext) : base(dbContext)
         {
         }
 
         public IQueryable<TDbEntity> GetItems(Expression<Func<TDbEntity, bool>> predicate, params string[] navigationProperties)
         {
 
-            var query = UnitOfWork.dbContext.Set<TDbEntity>().AsQueryable();
+            var query = Repository.AsQueryable();
 
             foreach (string navigationProperty in navigationProperties)
                 query = query.Include(navigationProperty);
