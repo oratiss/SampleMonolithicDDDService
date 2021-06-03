@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\01.Common\A.SharedValueObjects\SharedValueObject\SharedValueObject.csproj" />
+    <ProjectReference Include="..\..\02.C.DomainShared\DomainShared\DomainShared.csproj" />
+    <ProjectReference Include="..\..\02.D.DomainServiceContracts\DomainServiceContract\DomainServiceContract.csproj" />
+    <ProjectReference Include="..\..\02.E.ExceptionHandlersService\ExceptionsManagement\ExceptionsManagement.csproj" />
+  </ItemGroup>
+
+</Project>
