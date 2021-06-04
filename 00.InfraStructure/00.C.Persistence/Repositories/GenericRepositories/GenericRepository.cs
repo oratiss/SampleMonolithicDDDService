@@ -13,7 +13,8 @@ namespace Persistence.Repositories.GenericRepositories
 
         public GenericRepository(MelodiveMusicDbContext dbContext)
         {
-            if (dbContext != null) Repository = dbContext.Set<TDbEntity>();
+            DbContext = dbContext;
+            Repository = dbContext.Set<TDbEntity>();
         }
 
         public TDbEntity Get(TKey id)

@@ -1,18 +1,13 @@
-﻿using System.Collections.Generic;
-using Microsoft.Extensions.Configuration;
-using Persistence.Models.Positions;
-using Persistence.Models.Roles;
-using PersistenceTest.Positions;
-using PersistenceTest.Positions.Extensions;
-using EntityRole = Persistence.Models.Roles.Role;
+﻿using Persistence.Models.Roles;
 using Utilities.ReflectionTools;
+using EntityRole = Persistence.Models.Roles.Role;
 namespace PersistenceTest.Roles
 {
     public class PersistenceRoleTestBuilder : ReflectionBuilder<EntityRole, PersistenceRoleTestBuilder>
     {
         private readonly PersistenceRoleTestBuilder _builderInstance = null;
 
-        public int Id = RoleConstants.someId;
+        public long Id = RoleConstants.someId;
         public string Title = RoleConstants.someTitle;
         public string SystemDescription = RoleConstants.someSystemDescription;
         public string Description = RoleConstants.someDescription;

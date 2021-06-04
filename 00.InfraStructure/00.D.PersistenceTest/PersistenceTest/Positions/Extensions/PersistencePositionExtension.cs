@@ -7,9 +7,9 @@ namespace PersistenceTest.Positions.Extensions
 {
     public static class PersistencePositionExtension
     {
-        public static PositionActivity somePositionActivity = new PositionActivity(false, false, false, false, false, "someOtherText");
-        public static PositionActivity anotherPositionActivity = new PositionActivity(false, false, false, false, false, "anotherOtherText");
-        public static PositionActivity someAnotherPositionActivity = new PositionActivity(false, false, false, false, false, "someAnotherOtherText");
+        public static PositionActivity somePositionActivity = new PositionActivity(false, false, false, false, false, "someText");
+        public static PositionActivity anotherPositionActivity = new PositionActivity(false, false, false, false, false, "anotherText");
+        public static PositionActivity someAnotherPositionActivity = new PositionActivity(false, false, false, false, false, "someAnotherText");
         public static PersistencePosition AddSomePosition(
             this PersistencePositionTestBuilder persistencePositionTestBuilder)
         {

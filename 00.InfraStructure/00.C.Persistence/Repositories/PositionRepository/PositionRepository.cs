@@ -6,6 +6,7 @@ using Persistence.Repositories.GenericRepositories;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+using SharedValueObject.UserAccounting;
 
 namespace Persistence.Repositories.PositionRepository
 {
@@ -20,7 +21,7 @@ namespace Persistence.Repositories.PositionRepository
         {
             DbContext = dbContext;
             _repository = DbContext.Set<Position>();
-            RoleRepository = RoleRepository;
+            RoleRepository = roleRepository;
         }
 
         //todo:
@@ -83,10 +84,9 @@ namespace Persistence.Repositories.PositionRepository
                 var existingRole = RoleRepository.Get(position.RoleId);
                 if (existingRole != null)
                 {
+                    DbContext.Set<PositionActivity>().Update(position.PositionActivity);
                     _repository.Update(position);
-                    DbContext.Entry(existingPosition.PositionActivity).State = EntityState.Detached;
-                    existingPosition.PositionActivity.PositionId = position.Id;
-                    if (doCommit == true) Save();
+
                     return Get(position.Id);
                 }
                 throw new InvalidOperationException("There is no such role existing in role repository to be updated.");

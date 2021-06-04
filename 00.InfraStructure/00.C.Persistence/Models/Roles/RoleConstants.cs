@@ -2,17 +2,17 @@
 {
     public class RoleConstants
     {
-        public static readonly int someId = 1;
+        public static readonly long someId = 1;
         public static readonly string someTitle = "someTitle";
         public static readonly string someSystemDescription = "someSystemDescription";
         public static string someDescription = "someDescription";
 
-        public static readonly int anotherId = 2;
+        public static readonly long anotherId = 2;
         public static readonly string anotherTitle = "anotherTitle";
         public static readonly string anotherSystemDescription = "anotherSystemDescription";
         public static string anotherDescription = "anotherDescription";
         
-        public static readonly int someAnotherId = 3;
+        public static readonly long someAnotherId = 3;
         public static readonly string someAnotherTitle = "someAnotherTitle";
         public static readonly string someAnotherSystemDescription = "someAnotherSystemDescription";
         public static string someAnotherDescription = "someAnotherDescription";

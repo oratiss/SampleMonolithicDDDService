@@ -42,7 +42,6 @@ namespace PersistenceTest.Roles.Extensions
             var anotherRole = new PersistenceRoleTestBuilder().AddAnotherRole();
             var firstResult = sut.Add(someRole, true);
             var secondResult = sut.Add(anotherRole, true);
-            sut.Save();
             return (firstResult, secondResult);
         }
     }

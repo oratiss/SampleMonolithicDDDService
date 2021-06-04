@@ -179,7 +179,7 @@ namespace BDD.SPECS.Role
         testRunner.Then("I shoud be redircted into Role Index page in Admin panel", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 21
-        testRunner.And("I Should be to see the \"Blog Authors\" in the List", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+        testRunner.And("I Should be able to see the \"Blog Authors\" in the List", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();

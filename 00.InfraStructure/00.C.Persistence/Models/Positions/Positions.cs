@@ -20,7 +20,7 @@ namespace Persistence.Models.Positions
         public bool IsActive { get;  set; } = true;
 
         public Position(int id, string title, string code,DamageType damageType, ErgonomicStatus ergonomicStatus
-            ,PositionActivity positionActivity, string customesCode, string description,bool isActive ,int roleId) : base(id)
+            ,PositionActivity positionActivity, string customesCode, string description,bool isActive ,long roleId) : base(id)
         {
             Title = title;
             Code = code;

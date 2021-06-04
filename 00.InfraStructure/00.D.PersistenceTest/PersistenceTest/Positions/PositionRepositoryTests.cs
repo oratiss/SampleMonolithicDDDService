@@ -1,14 +1,12 @@
 ﻿using FluentAssertions;
+using Persistence.Context;
 using Persistence.Models.Roles;
 using Persistence.Repositories.GenericRepositories;
 using Persistence.Repositories.PositionRepository;
-using Persistence.UnitOfWorks;
 using PersistenceTest.Positions.Extensions;
 using PersistenceTest.Roles;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Utilities.SharedTools.Assertions;
 using Xunit;
 
@@ -16,25 +14,25 @@ namespace PersistenceTest.Positions
 {
     public class PositionRepositoryTests : BaseRepositoryTests
     {
-        private readonly IPositionRepository _sut;
+        private PositionRepository sut;
         public IGenericRepository<Role, long> roleRepository { get; set; }
 
-        public PositionRepositoryTests(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public PositionRepositoryTests() : base(new MelodiveMusicDbContext())
         {
-            _sut = unitOfWork.PositionRepository;
-            roleRepository = unitOfWork.RoleRepository;
+            roleRepository = new GenericRepository<Role, long>(DbContext);
+            sut = new PositionRepository(DbContext, roleRepository);
         }
-              
-       
+
+
 
         [Fact]
         public void Get_Method_Of_Position_Repository_Should_Get_Position_By_Its_Id()
         {
             //arrange
-            var (_, anotherPosition) = this.AddSomePositions(_sut);
+            var (_, anotherPosition) = this.AddSomePositions(sut);
 
             //act and assert
-            var actualpPosition = _sut.Get(anotherPosition.Id);
+            var actualpPosition = sut.Get(anotherPosition.Id);
             var actualRole = actualpPosition.Role;
             var expectedRole = new PersistenceRoleTestBuilder()
                 .With(r => r.Id, anotherPosition.Role.Id)
@@ -67,10 +65,10 @@ namespace PersistenceTest.Positions
         {
             //arrange
 
-            var (somePositioon, anotherPosition) = this.AddSomePositions(_sut);
+            var (somePositioon, anotherPosition) = this.AddSomePositions(sut);
 
             //act
-            var actualPositions = _sut.GetAll();
+            var actualPositions = sut.GetAll();
             var actualRoles = new List<Role>();
             foreach (var item in actualPositions)
             {
@@ -131,11 +129,11 @@ namespace PersistenceTest.Positions
         public void Add_Method_Of_Position_Repository_Should_Add_Given_Position()
         {
             //arrange
-            var (somePosition, anotherPosition) = this.AddSomePositions(_sut);
+            var (somePosition, anotherPosition) = this.AddSomePositions(sut);
             var someAnotherPosition = new PersistencePositionTestBuilder().AddSomeAnotherPosition();
 
             //act 
-            var actualpPosition = _sut.Add(someAnotherPosition, true);
+            var actualpPosition = sut.Add(someAnotherPosition, true);
             var actualRole = actualpPosition.Role;
 
             //assert
@@ -168,14 +166,17 @@ namespace PersistenceTest.Positions
         public void Update_Method_Of_Position_Repository_Should_Update_Given_Position()
         {
             //arrange
-            var Positions = _sut.GetAll().ToList();
-            foreach (var item in Positions)
+            var Positions = sut.GetAll().ToList();
+            if (Positions.Any())
             {
-                _sut.Delete(item, true);
+                foreach (var item in Positions)
+                {
+                    sut.Delete(item, true);
+                }
             }
-            var (somePositioon, anotherPosition) = this.AddSomePositions(_sut);
+            var (somePositioon, anotherPosition) = this.AddSomePositions(sut);
             var someAnotherPosition = new PersistencePositionTestBuilder().AddSomeAnotherPosition();
-            someAnotherPosition = _sut.Add(someAnotherPosition, true);
+            someAnotherPosition = sut.Add(someAnotherPosition, true);
 
             //act
             someAnotherPosition.Title = anotherPosition.Title;
@@ -188,8 +189,9 @@ namespace PersistenceTest.Positions
             someAnotherPosition.Role = anotherPosition.Role;
             someAnotherPosition.RoleId = anotherPosition.RoleId;
             someAnotherPosition.PositionActivity = anotherPosition.PositionActivity;
+            someAnotherPosition.PositionActivity.PositionId = someAnotherPosition.Id;
 
-            var actualPosition = _sut.Update(someAnotherPosition, true);
+            var actualPosition = sut.Update(someAnotherPosition, true);
             var actualRole = actualPosition.Role;
 
             //assert
@@ -208,7 +210,7 @@ namespace PersistenceTest.Positions
                 .With(p => p.Code, anotherPosition.Code)
                 .With(p => p.DamageType, anotherPosition.DamageType)
                 .With(p => p.ErgonomicStatus, anotherPosition.ErgonomicStatus)
-                .With(p => p.PositionActivity, anotherPosition.PositionActivity)
+                .With(p => p.PositionActivity, someAnotherPosition.PositionActivity)
                 .With(p => p.CustomesCode, anotherPosition.CustomesCode)
                 .With(p => p.Description, anotherPosition.Description)
                 .With(p => p.IsActive, anotherPosition.IsActive)
@@ -221,16 +223,16 @@ namespace PersistenceTest.Positions
         public void Delete_Method_Of_Position_Repository()
         {
             //Arrange
-            var (somePosition, anotherPosition) = this.AddSomePositions(_sut);
+            var (somePosition, anotherPosition) = this.AddSomePositions(sut);
 
 
             //Act
-            _sut.Delete(anotherPosition,true);
+            sut.Delete(anotherPosition, true);
             //Assert
-            
+
             anotherPosition.Role.Positions = null;
             anotherPosition.Role = null;
-            
+
             var expectedPosition = new PersistencePositionTestBuilder()
                 .With(p => p.Id, anotherPosition.Id)
                 .With(p => p.Title, anotherPosition.Title)
@@ -244,7 +246,7 @@ namespace PersistenceTest.Positions
                 .With(p => p.RoleId, anotherPosition.RoleId)
                 .Build();
 
-            var actual = _sut.GetAll();
+            var actual = sut.GetAll();
             actual.IsContaining(expectedPosition).Should().BeFalse();
         }
 

@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Persistence.UnitOfWorks;
+﻿using Persistence.Context;
 
 namespace PersistenceTest.Positions
 {
     public class BaseRepositoryTests
     {
-        protected IUnitOfWork UnitOfWork { get; set; }
+        protected MelodiveMusicDbContext DbContext { get; set; }
 
-        public BaseRepositoryTests(IUnitOfWork unitOfWork)
+        public BaseRepositoryTests(MelodiveMusicDbContext dbContext)
         {
-            UnitOfWork = unitOfWork;
+            DbContext = dbContext;
         }
     }
 }
