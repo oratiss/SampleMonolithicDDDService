@@ -18,7 +18,7 @@ Feature: Role Management
         And I Enter Role Description as "The Users with right to add/remove/edit BlogCategories and BlogPosts"
         And I Press Save Button
         Then I shoud be redircted into Role Index page in Admin panel
-        And I Should be to see the "Blog Authors" in the List
+        And I Should be able to see the "Blog Authors" in the List
 
     Scenario: viewing Role index page from AddANewUserRole page
         Given I am in Add a new user role page in admin panel
