@@ -2,17 +2,15 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence.Context;
 
 namespace Persistence.Migrations
 {
     [DbContext(typeof(MelodiveMusicDbContext))]
-    [Migration("20201021114014_updating_role_position_positionactivity_21.10.2020_15.10")]
-    partial class updating_role_position_positionactivity_21102020_1510
+    partial class MelodiveMusicDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,8 +46,8 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
+                    b.Property<long>("RoleId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -63,9 +61,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Persistence.Models.Roles.Role", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
@@ -87,11 +85,19 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = 1L,
                             Description = "A role for system administrators",
                             IsDeleted = false,
                             SystemDescription = "System.UserManagement.Roles.Admin",
                             Title = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            Description = "A role for registered users",
+                            IsDeleted = false,
+                            SystemDescription = "System.UserManagement.Roles.RegisteredUser",
+                            Title = "RegisteredUser"
                         });
                 });
 
@@ -103,12 +109,10 @@ namespace Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("CommonTypes.UserAccounting.Positions.PositionActivity", "PositionActivity", b1 =>
+                    b.OwnsOne("SharedValueObject.UserAccounting.PositionActivity", "PositionActivity", b1 =>
                         {
                             b1.Property<int>("PositionId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<bool>("Hearing")
                                 .HasColumnType("bit");
@@ -130,7 +134,7 @@ namespace Persistence.Migrations
 
                             b1.HasKey("PositionId");
 
-                            b1.ToTable("Positions");
+                            b1.ToTable("PositionActivities");
 
                             b1.WithOwner()
                                 .HasForeignKey("PositionId");

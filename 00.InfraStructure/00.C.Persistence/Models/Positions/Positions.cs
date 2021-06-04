@@ -34,7 +34,7 @@ namespace Persistence.Models.Positions
         }
 
         //Navigation Properties
-        public int RoleId { get; set; }
+        public long RoleId { get; set; }
         public Role Role { get; set; }
     }
 }
