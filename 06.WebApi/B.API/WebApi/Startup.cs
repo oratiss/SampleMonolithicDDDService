@@ -1,5 +1,4 @@
 using ApplicationService.UserAccounting.Roles;
-using HSEWebApi.AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -11,8 +10,9 @@ using Microsoft.OpenApi.Models;
 using Persistence.Context;
 using Persistence.UnitOfWorks;
 using Utilities.BasedSetMappers;
+using WebApi.AutoMapper;
 
-namespace HSEWebApi
+namespace WebApi
 {
     public class Startup
     {
@@ -65,9 +65,8 @@ namespace HSEWebApi
             services.AddSingleton<IAutoMapperConfiguration, AutoMapperConfiguration>();
 
             services.AddDbContext<IMelodiveMusicDbContext, MelodiveMusicDbContext>(options =>
-            {
-                options.UseSqlServer("name = ConnectionStrings:DefaultConnection");
-            });
+                options.UseSqlServer("name = ConnectionStrings:DefaultConnection"));
+
 
             services.AddUnitOfWork();
            

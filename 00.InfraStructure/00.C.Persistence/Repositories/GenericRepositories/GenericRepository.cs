@@ -43,8 +43,8 @@ namespace Persistence.Repositories.GenericRepositories
         public void Delete(TDbEntity entity, bool? doCommit=null)
         {
             entity.IsDeleted = true;
-            if (doCommit == true) Save();
             Update(entity);
+            if (doCommit == true) Save();
         }
 
         public TDbEntity Update(TDbEntity entity, bool? doCommit=null)

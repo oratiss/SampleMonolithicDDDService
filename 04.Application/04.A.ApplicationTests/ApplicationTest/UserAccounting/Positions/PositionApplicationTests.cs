@@ -5,7 +5,6 @@ using DomainTest.UserAccounting.Positions;
 using DomainTest.UserAccounting.Roles;
 using DomainTest.UserAccounting.Roles.Extensions;
 using FluentAssertions;
-using HSEWebApi.AutoMapper;
 using Persistence.Models.Roles;
 using Persistence.Repositories.FakeGenericRepositories;
 using Persistence.Repositories.GenericRepositories;
@@ -13,6 +12,7 @@ using Persistence.Repositories.PositionRepository;
 using Persistence.UnitOfWorks;
 using Utilities.BasedSetMappers;
 using Utilities.SharedTools.Assertions;
+using WebApi.AutoMapper;
 using Xunit;
 using static Utilities.SharedTools.Constants.RoleConstants;
 

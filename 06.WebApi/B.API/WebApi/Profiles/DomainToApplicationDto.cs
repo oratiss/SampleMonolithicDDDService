@@ -4,7 +4,7 @@ using DomainPosition = Domain.UserAccounting.Positions.Position;
 using DomainRole = Domain.UserAccounting.Roles.Role;
 
 
-namespace HSEWebApi.Profiles
+namespace WebApi.Profiles
 {
     public class DomainToApplicationDto : Profile
     {

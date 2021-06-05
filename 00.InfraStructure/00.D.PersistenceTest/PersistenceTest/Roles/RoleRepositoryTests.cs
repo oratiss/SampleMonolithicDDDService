@@ -1,7 +1,9 @@
 ﻿using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Persistence.Context;
 using Persistence.Models.Roles;
+using Persistence.Repositories.BasicRepositories;
 using Persistence.Repositories.GenericRepositories;
 using PersistenceTest.Roles.Extensions;
 using Utilities.SharedTools.Assertions;
@@ -9,13 +11,12 @@ using Xunit;
 
 namespace PersistenceTest.Roles
 {
-    public class RoleRepositoryTests
+    public class RoleRepositoryTests: BasicAggregatedRepository
     {
         private readonly IGenericRepository<Role, long> sut;
         
         public RoleRepositoryTests()
         {
-            var dbContext = new MelodiveMusicDbContext();
             sut = new GenericRepository<Role, long>(dbContext);
         }
 

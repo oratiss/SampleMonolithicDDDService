@@ -7,10 +7,10 @@ using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Persistence.Repositories.GenericRepositories;
 using System;
-using HSEWebApi.AutoMapper;
 using Persistence.Repositories.FakeGenericRepositories;
 using Utilities.BasedSetMappers;
 using Utilities.SharedTools.Assertions;
+using WebApi.AutoMapper;
 using Xunit;
 using entityRole = Persistence.Models.Roles.Role;
 
@@ -23,10 +23,10 @@ namespace ApplicationTest.UserAccounting.Roles
 
         public RoleApplicationTests() : base(new AutoMapperConfiguration())
         {
-            _services.AddSingleton<IApplicationRoleService, ApplicationRoleService>();
-            _services.AddScoped<IGenericRepository<entityRole, long>, GenericFakeRepository<entityRole, long>>();
+            services.AddSingleton<IApplicationRoleService, ApplicationRoleService>();
+            services.AddScoped<IGenericRepository<entityRole, long>, GenericFakeRepository<entityRole, long>>();
 
-            var serviceProvider = _services.BuildServiceProvider();
+            var serviceProvider = services.BuildServiceProvider();
             var repository = serviceProvider.GetService<IGenericRepository<entityRole, long>>();
 
             sut = new ApplicationRoleService(repository, new AutoMapperConfiguration());

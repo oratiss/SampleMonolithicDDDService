@@ -29,30 +29,27 @@ namespace ApplicationService.UserAccounting.Positions
             return mapper.Map<ApplicationPositionDto>(position);
         }
 
-        public ApplicationPositionDto Add(ApplicationPositionDto applicationPositionDto, bool? doCommit=null)
+        public ApplicationPositionDto Add(ApplicationPositionDto applicationPositionDto, bool? doCommit =null)
         {
             var persistencePosition = this.CheckDomainPositionServiceRulesAndMapToPersistence(mapper, applicationPositionDto);
-            persistencePosition = UnitOfWork.PositionRepository.Add(persistencePosition, true);
-            if (doCommit==true) UnitOfWork.Save();
+            persistencePosition = UnitOfWork.PositionRepository.Add(persistencePosition, doCommit);
             return mapper.Map<ApplicationPositionDto>(persistencePosition);
         }
 
-        public void Delete(int id, bool? doCommit=null)
+        public void Delete(int id, bool? doCommit = null)
         {
-            UnitOfWork.PositionRepository.Delete(id, true);
-            if (doCommit==true) UnitOfWork.Save();
+            UnitOfWork.PositionRepository.Delete(id, doCommit);
         }
 
-        public void Delete(ApplicationPositionDto applicationDto, bool? doCommit=null)
+        public void Delete(ApplicationPositionDto applicationDto, bool? doCommit = null)
         {
             Delete(applicationDto.Id, doCommit);
         }
 
-        public ApplicationPositionDto Update(ApplicationPositionDto applicationPositionDto, bool? doCommit=null)
+        public ApplicationPositionDto Update(ApplicationPositionDto applicationPositionDto, bool? doCommit = null)
         {
             var persistencePosition = this.CheckDomainPositionServiceRulesAndMapToPersistence(mapper, applicationPositionDto);
-            persistencePosition = UnitOfWork.PositionRepository.Update(persistencePosition, true);
-            if (doCommit == true) UnitOfWork.Save();
+            persistencePosition = UnitOfWork.PositionRepository.Update(persistencePosition, doCommit);
             return mapper.Map<ApplicationPositionDto>(persistencePosition);
         }
 

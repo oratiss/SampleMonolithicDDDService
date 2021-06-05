@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using Domain.UserAccounting.Positions;
-using Utilities.Enums.UserAccounting.Positions;
 using PersistenceRole = Persistence.Models.Roles.Role;
 using DomainRole = Domain.UserAccounting.Roles.Role;
 using DomainPosition = Domain.UserAccounting.Positions.Position;
@@ -8,7 +6,7 @@ using PersistencePosition= Persistence.Models.Positions.Position;
 
 
 
-namespace HSEWebApi.Profiles
+namespace WebApi.Profiles
 {
     public class DomainToPersistenceEntity : Profile
     {

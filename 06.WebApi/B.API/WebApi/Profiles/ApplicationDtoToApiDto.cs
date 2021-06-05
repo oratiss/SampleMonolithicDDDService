@@ -2,7 +2,7 @@
 using AutoMapper;
 using WebApi.Dtos.UserAccounting;
 
-namespace HSEWebApi.Profiles
+namespace WebApi.Profiles
 {
     public class ApplicationDtoToApiDto:Profile
     {

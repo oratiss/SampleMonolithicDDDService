@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using Persistence.Context;
 using Persistence.Models.Roles;
 using Persistence.Repositories.GenericRepositories;
 using Persistence.Repositories.PositionRepository;
@@ -15,12 +14,13 @@ namespace PersistenceTest.Positions
     public class PositionRepositoryTests : BaseRepositoryTests
     {
         private PositionRepository sut;
-        public IGenericRepository<Role, long> roleRepository { get; set; }
+        public IGenericRepository<Role, long> RoleRepository { get; set; }
 
-        public PositionRepositoryTests() : base(new MelodiveMusicDbContext())
+
+        public PositionRepositoryTests()
         {
-            roleRepository = new GenericRepository<Role, long>(DbContext);
-            sut = new PositionRepository(DbContext, roleRepository);
+            RoleRepository = new GenericRepository<Role, long>(DbContext);
+            sut = new PositionRepository(DbContext, RoleRepository);
         }
 
 
@@ -171,7 +171,7 @@ namespace PersistenceTest.Positions
             {
                 foreach (var item in Positions)
                 {
-                    sut.Delete(item, true);
+                    sut.Delete(item);
                 }
             }
             var (somePositioon, anotherPosition) = this.AddSomePositions(sut);
@@ -227,7 +227,7 @@ namespace PersistenceTest.Positions
 
 
             //Act
-            sut.Delete(anotherPosition, true);
+            sut.Delete(anotherPosition);
             //Assert
 
             anotherPosition.Role.Positions = null;

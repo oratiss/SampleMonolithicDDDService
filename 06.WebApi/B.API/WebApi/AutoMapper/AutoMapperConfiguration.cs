@@ -1,12 +1,11 @@
-﻿using AutoMapper;
-using HSEWebApi.Profiles;
-using Microsoft.Extensions.DependencyInjection;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
+using AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
 using Utilities.BasedSetMappers;
 using WebApi.Profiles;
 
-namespace HSEWebApi.AutoMapper
+namespace WebApi.AutoMapper
 {
     public class AutoMapperConfiguration : IAutoMapperConfiguration
     {

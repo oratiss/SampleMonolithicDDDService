@@ -1,6 +1,6 @@
 using System;
 
-namespace HSEWebApi
+namespace WebApi
 {
     public class WeatherForecast
     {

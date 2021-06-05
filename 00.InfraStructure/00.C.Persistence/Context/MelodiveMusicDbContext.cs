@@ -12,14 +12,6 @@ namespace Persistence.Context
         {
         }
 
-        public MelodiveMusicDbContext()
-        {
-        }
-
-
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
-         => options.UseSqlServer("Server=localhost\\MSSQLSERVER2019; Database=MelodiveMusicDDD2021; User=sa; Password=112233445566;  MultipleActiveResultSets=true;");
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder

@@ -3,7 +3,7 @@ using AutoMapper;
 using PersistencePosiotion=Persistence.Models.Positions.Position;
 using PersistenceRole=Persistence.Models.Roles.Role;
 
-namespace HSEWebApi.Profiles
+namespace WebApi.Profiles
 {
     public class PersistenceEntityToApplicationDto : Profile
     {

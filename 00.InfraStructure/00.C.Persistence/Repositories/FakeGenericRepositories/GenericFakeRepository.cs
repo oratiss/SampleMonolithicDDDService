@@ -9,7 +9,7 @@ namespace Persistence.Repositories.FakeGenericRepositories
     public class GenericFakeRepository<TDbEntity, TKey> : IGenericRepository<TDbEntity, TKey> where TDbEntity : BaseEntity<TKey> where TKey : struct
     {
         public List<TDbEntity> Repository { get; set; }
-        
+
         public GenericFakeRepository()
         {
             Repository = new List<TDbEntity>();
@@ -59,7 +59,6 @@ namespace Persistence.Repositories.FakeGenericRepositories
 
         public void Save()
         {
-            throw new System.NotImplementedException();
         }
     }
 }

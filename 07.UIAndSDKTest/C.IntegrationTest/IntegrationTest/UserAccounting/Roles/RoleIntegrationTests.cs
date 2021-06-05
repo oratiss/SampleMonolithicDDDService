@@ -1,11 +1,11 @@
 ﻿using FluentAssertions;
-using HSEWebApi.AutoMapper;
 using IntegrationTest.UserAccounting.Roles.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http;
 using TestBridge.Controllers.UserAccounting.Roles;
 using Utilities.BasedSetMappers;
 using Utilities.SharedTools.Assertions;
+using WebApi.AutoMapper;
 using Xunit;
 
 namespace IntegrationTest.UserAccounting.Roles
@@ -16,8 +16,8 @@ namespace IntegrationTest.UserAccounting.Roles
 
         public RoleIntegrationTests() : base(new AutoMapperConfiguration())
         {
-            _services.AddHttpClient();
-            var serviceProvider = _services.BuildServiceProvider();
+            services.AddHttpClient();
+            var serviceProvider = services.BuildServiceProvider();
             var httpClientFactory = serviceProvider.GetService<IHttpClientFactory>();
             sut =new RoleController(httpClientFactory);
         }

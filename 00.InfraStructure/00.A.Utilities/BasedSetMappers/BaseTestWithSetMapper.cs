@@ -5,17 +5,17 @@ namespace Utilities.BasedSetMappers
 {
     public class BaseTestWithSetMapper
     {
-        protected IServiceCollection _services;
+        protected IServiceCollection services;
         protected IMapper mapper;
-        protected IAutoMapperConfiguration _config;
+        protected IAutoMapperConfiguration config;
 
         public BaseTestWithSetMapper(IAutoMapperConfiguration config)
         {
-            _services = new ServiceCollection();
-            _config = config;
-            _config.Configure(_services);
+            services = new ServiceCollection();
+            this.config = config;
+            this.config.Configure(services);
 
-            var serviceProvider = _services.BuildServiceProvider();
+            var serviceProvider = services.BuildServiceProvider();
             mapper = serviceProvider.GetService<IMapper>();
         }
 

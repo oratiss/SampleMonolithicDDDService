@@ -3,25 +3,25 @@ using Persistence.Context;
 using Persistence.Models.Positions;
 using Persistence.Models.Roles;
 using Persistence.Repositories.GenericRepositories;
+using SharedValueObject.UserAccounting;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
-using SharedValueObject.UserAccounting;
 
 namespace Persistence.Repositories.PositionRepository
 {
     public class PositionRepository : IPositionRepository
     {
-        public IGenericRepository<Role, long> RoleRepository { get; }
-
         public MelodiveMusicDbContext DbContext { get; set; }
+        public IGenericRepository<Role, long> RoleRepository { get; set; }
+
         private readonly DbSet<Position> _repository;
 
         public PositionRepository(MelodiveMusicDbContext dbContext, IGenericRepository<Role, long> roleRepository)
         {
             DbContext = dbContext;
-            _repository = DbContext.Set<Position>();
             RoleRepository = roleRepository;
+            _repository = DbContext.Set<Position>();
         }
 
         //todo:
@@ -56,7 +56,7 @@ namespace Persistence.Repositories.PositionRepository
                 if (existingRole != null)
                 {
                     _repository.Add(position);
-                    if (doCommit==true) Save();
+                    if (doCommit == true) Save();
                     return Get(position.Id);
                 }
                 throw new InvalidOperationException("There is no found role exists in role repository.");
@@ -68,7 +68,7 @@ namespace Persistence.Repositories.PositionRepository
         {
             var existingPosition = Get(id);
             existingPosition.IsDeleted = true;
-            if (doCommit == true) Save();
+            if (doCommit==true) Save();
         }
 
         public void Delete(Position position, bool? doCommit = null)
@@ -86,7 +86,6 @@ namespace Persistence.Repositories.PositionRepository
                 {
                     DbContext.Set<PositionActivity>().Update(position.PositionActivity);
                     _repository.Update(position);
-
                     return Get(position.Id);
                 }
                 throw new InvalidOperationException("There is no such role existing in role repository to be updated.");

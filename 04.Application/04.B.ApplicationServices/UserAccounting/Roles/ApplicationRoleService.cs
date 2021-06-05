@@ -13,10 +13,10 @@ namespace ApplicationService.UserAccounting.Roles
 {
     public class ApplicationRoleService : BaseApplicationService, IApplicationRoleService
     {
-        private readonly GenericRepository<entityRole, long> _roleRepository;
+        private readonly IGenericRepository<entityRole, long> _roleRepository;
         public ApplicationRoleService(IGenericRepository<entityRole, long> roleRepository, IAutoMapperConfiguration config) : base(config)
         {
-            _roleRepository = roleRepository as GenericRepository<entityRole,long>;
+            _roleRepository = roleRepository;
         }
 
         public ApplicationRoleDto Get(long id)
@@ -34,7 +34,6 @@ namespace ApplicationService.UserAccounting.Roles
             }
         }
 
-        
 
         public IEnumerable<ApplicationRoleDto> GetAll()
         {
@@ -63,14 +62,15 @@ namespace ApplicationService.UserAccounting.Roles
         {
             _roleRepository.Delete(id, true);
             if (doCommit == true) _roleRepository.Save();
-
         }
+
 
         public void Delete(ApplicationRoleDto applicationDto, bool? doCommit = null)
         {
             _roleRepository.Delete(applicationDto.Id, true);
             if (doCommit == true) _roleRepository.Save();
         }
+
 
         public ApplicationRoleDto Update(ApplicationRoleDto applicationRoleDto, bool? doCommit = null)
         {
