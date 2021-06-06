@@ -3,6 +3,7 @@ using Persistence.Context;
 using Persistence.Models.Positions;
 using Persistence.Models.Roles;
 using Persistence.Repositories.FakeGenericRepositories;
+using Persistence.Repositories.GenericRepositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +12,13 @@ using System.Linq.Expressions;
 
 namespace Persistence.Repositories.PositionRepository
 {
-    public class FakePositionRepository 
+    public class FakePositionRepository : IPositionRepository
     {
-        public GenericFakeRepository<Role, long> RoleRepository { get; set; }
+        public MelodiveMusicDbContext DbContext { get; set; }
+        public IGenericRepository<Role, long> RoleRepository { get; set; }
         private readonly IList<Position> _positionRepository;
 
-        public FakePositionRepository(GenericFakeRepository<Role, long> roleRepository)
+        public FakePositionRepository(IGenericRepository<Role, long> roleRepository)
         {
             _positionRepository = new List<Position>();
             this.RoleRepository = roleRepository;
@@ -32,9 +34,6 @@ namespace Persistence.Repositories.PositionRepository
 
             return query.Where(predicate).AsQueryable();
         }
-
-
-        public MelodiveMusicDbContext DbContext { get; set; }
 
         public IQueryable<Position> GetAll()
         {
@@ -78,6 +77,7 @@ namespace Persistence.Repositories.PositionRepository
             _positionRepository.Remove(existingPosition);
         }
 
+
         public Position Update(Position position, bool? doCommit)
         {
             var existingPosition = _positionRepository.SingleOrDefault(e => e.Id.Equals(position.Id));
@@ -93,7 +93,7 @@ namespace Persistence.Repositories.PositionRepository
             throw new InvalidOperationException("There is no similar role in role repository.");
         }
 
-        public void Save()
+        void IGenericRepository<Position, int>.Save()
         {
             throw new NotImplementedException();
         }

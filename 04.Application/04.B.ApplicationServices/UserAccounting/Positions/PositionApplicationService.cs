@@ -53,7 +53,7 @@ namespace ApplicationService.UserAccounting.Positions
             return mapper.Map<ApplicationPositionDto>(persistencePosition);
         }
 
-        public ApplicationRoleDto GetRole(int id)
+        public ApplicationRoleDto GetRole(long id)
         {
             return mapper.Map<ApplicationRoleDto>(UnitOfWork.RoleRepository.Get(id));
         }

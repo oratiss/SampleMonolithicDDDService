@@ -13,11 +13,11 @@ namespace DomainTest.UserAccounting.Roles
         public void Role_Id_In_Role_Constructor_Should_Not_Be_Empty()
         {
             //arrange
-            int? invalidInt = null;
+            long? invalidLong = null;
             //Assert
             Assert.Throws<InvalidOperationException>(() =>
                                 new RoleTestBuilder()
-                                .With(r => r.Id, invalidInt)
+                                .With(r => r.Id, invalidLong)
                                 .Build()
             );
         }

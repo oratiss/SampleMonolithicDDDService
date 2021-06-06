@@ -20,7 +20,7 @@ namespace IntegrationTest.UserAccounting.Roles.Extensions
         public static BridgeRoleViewModel AddSomeRole(this BridgeRoleTestBuilder roleTestBuilder)
         {
             return new BridgeRoleTestBuilder()
-                    .With(r => r.Id, 0)
+                    .With(r => r.Id, (long)0)
                     .With(r => r.Title, someTitle)
                     .With(r => r.Description, someDescription)
                     .With(r => r.SystemDescription, someSystemDescription)

@@ -21,12 +21,12 @@ namespace Domain.UserAccounting.Positions
         public string CustomesCode { get; private set; }
         public string Description { get; private set; }
         public bool IsActive { get; private set; } = true;
-        public int RoleId { get; private set; }
+        public long RoleId { get; private set; }
 
         private IDomainPositionExceptionHelper _roleExceptionHelper = new PositionExceptionHelper();
 
         public Position(int id, string title, string code, DamageType damageType, ErgonomicStatus ergonomicStatus
-            , PositionActivity positionActivity, string customesCode, string description, bool isActive, int roleId) : base(id)
+            , PositionActivity positionActivity, string customesCode, string description, bool isActive, long roleId) : base(id)
         {
 
             if (title.Length > 100 || string.IsNullOrWhiteSpace(title) || string.IsNullOrEmpty(title))

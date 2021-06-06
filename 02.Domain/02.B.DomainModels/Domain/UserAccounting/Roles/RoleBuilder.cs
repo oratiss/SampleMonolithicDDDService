@@ -9,7 +9,7 @@ namespace Domain.UserAccounting.Roles
     {
         private readonly RoleBuilder _builderInstance = null;
 
-        public int Id = someId;
+        public long Id = someId;
         public string Title = someTitle;
         public string SystemDescription = someSystemDescription;
         public string Description = someDescription;

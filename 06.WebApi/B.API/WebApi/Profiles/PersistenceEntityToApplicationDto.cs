@@ -1,6 +1,6 @@
 ﻿using ApplicationService.UserAccounting.Dtos;
 using AutoMapper;
-using PersistencePosiotion=Persistence.Models.Positions.Position;
+using PersistencePosition=Persistence.Models.Positions.Position;
 using PersistenceRole=Persistence.Models.Roles.Role;
 
 namespace WebApi.Profiles
@@ -17,7 +17,7 @@ namespace WebApi.Profiles
 
 
 
-            CreateMap<PersistencePosiotion, ApplicationPositionDto>()
+            CreateMap<PersistencePosition, ApplicationPositionDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dest => dest.Code, opt => opt.MapFrom(src => src.Code))

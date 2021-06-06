@@ -6,9 +6,9 @@ namespace IntegrationTest.UserAccounting.Roles
 {
     public class BridgeRoleTestBuilder : ReflectionBuilder<BridgeRoleViewModel, BridgeRoleTestBuilder>
     {
-        private readonly BridgeRoleTestBuilder _builderInstance = null;
+        private readonly BridgeRoleTestBuilder _builderInstance;
 
-        public int Id = someId;
+        public long Id = someId;
         public string Title = someTitle;
         public string SystemDescription = someSystemDescription;
         public string Description = someDescription;

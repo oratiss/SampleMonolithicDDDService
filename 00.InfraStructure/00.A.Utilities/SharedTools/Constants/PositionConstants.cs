@@ -12,7 +12,7 @@ namespace Utilities.SharedTools.Constants
         public static readonly string someCustomesCode = "987654321";
         public static readonly string someDescription = "someDescription";
         public static readonly bool someIsActive= true;
-        public static readonly int someRoleId = 1;
+        public static readonly long someRoleId = 1;
         
         public static readonly int anotherId = 2;
         public static readonly string anotherTitle = "anotherTitle";
@@ -22,7 +22,7 @@ namespace Utilities.SharedTools.Constants
         public static readonly string anotherCustomesCode = "564321";
         public static readonly string anotherDescription = "anotherDescription";
         public static readonly bool anotherIsActive= true;
-        public static readonly int anotherRoleId = 1;
+        public static readonly long anotherRoleId = 1;
 
         public static readonly int someAnotherId = 3;
         public static readonly string someAnotherTitle = "someAnotherTitle";
@@ -32,7 +32,7 @@ namespace Utilities.SharedTools.Constants
         public static readonly string someAnotherCustomesCode = "987654";
         public static readonly string someAnotherDescription = "someAnotherDescription";
         public static readonly bool someAnotherIsActive= true;
-        public static readonly int someAnotherRoleId = 2;
+        public static readonly long someAnotherRoleId = 2;
 
         public static readonly string positionActivityOther = "positionActivityOther";
         public static readonly string invalidTitle_With101Characters

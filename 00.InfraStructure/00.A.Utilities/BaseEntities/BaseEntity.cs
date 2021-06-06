@@ -1,6 +1,6 @@
 ﻿namespace Utilities.BaseEntities
 {
-    public class BaseEntity<T>
+    public class BaseEntity<T> where T : struct
     {
         public T Id { get; set; }
         public bool IsDeleted { get; set; }

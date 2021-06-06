@@ -53,6 +53,12 @@ namespace ApplicationService.UserAccounting.Roles
                 .Build();
 
             var roleEntity = mapper.Map<entityRole>(domainRole);
+            if (domainRole.Id != 0)
+            {
+                var existingRole = _roleRepository.Get(domainRole.Id);
+                if (existingRole != null)
+                    throw new InvalidOperationException("there is already a similar existing item in repository."); 
+            }
             var entity = _roleRepository.Add(roleEntity, true);
             if (doCommit == true) _roleRepository.Save();
             return mapper.Map<ApplicationRoleDto>(entity);
@@ -74,13 +80,19 @@ namespace ApplicationService.UserAccounting.Roles
 
         public ApplicationRoleDto Update(ApplicationRoleDto applicationRoleDto, bool? doCommit = null)
         {
-            var roleDomain = new RoleBuilder()
+            var domainRole = new RoleBuilder()
                 .With(r => r.Id, applicationRoleDto.Id)
                 .With(r => r.Title, applicationRoleDto.Title)
                 .With(r => r.Description, applicationRoleDto.Description)
                 .With(r => r.SystemDescription, applicationRoleDto.SystemDescription)
                 .Build();
-            var roleEntity = mapper.Map<entityRole>(roleDomain);
+            var roleEntity = mapper.Map<entityRole>(domainRole);
+            if (domainRole.Id != 0)
+            {
+                var existingRole = _roleRepository.Get(domainRole.Id);
+                if (existingRole == null)
+                    throw new InvalidOperationException("there is no wanted entity to be updated.");
+            }
             roleEntity = _roleRepository.Update(roleEntity, true);
             if (doCommit == true) _roleRepository.Save();
             return mapper.Map<ApplicationRoleDto>(roleEntity);

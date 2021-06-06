@@ -6,6 +6,6 @@ namespace ApplicationService.UserAccounting.Positions
 {
     public interface IApplicationPositionService:IApplicationService<ApplicationPositionDto, PersistencePosition, int>
     {
-        public ApplicationRoleDto GetRole(int id);
+        public ApplicationRoleDto GetRole(long id);
     }
 }

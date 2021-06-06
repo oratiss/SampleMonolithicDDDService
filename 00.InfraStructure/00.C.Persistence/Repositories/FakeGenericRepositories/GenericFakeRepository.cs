@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Persistence.Context;
 using Persistence.Repositories.GenericRepositories;
@@ -35,6 +36,7 @@ namespace Persistence.Repositories.FakeGenericRepositories
         public TDbEntity Add(TDbEntity entity, bool? doCommit = null)
         {
             Repository.Add(entity);
+            if (doCommit == true) Save();
             return entity;
         }
 

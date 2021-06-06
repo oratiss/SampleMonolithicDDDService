@@ -89,7 +89,7 @@ namespace TestBridge.Controllers.UserAccounting.Roles
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteById(int id)
+        public async Task<ActionResult> DeleteById(long id)
         {
 
             try

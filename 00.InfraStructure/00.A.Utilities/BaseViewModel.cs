@@ -4,10 +4,10 @@ using System.Text;
 
 namespace Utilities
 {
-    public class BaseViewModel<Tkey> where Tkey : struct
+    public class BaseViewModel<TKey> where TKey : struct
     {
-        public Tkey Id { get; set; }
-        public BaseViewModel(Tkey id)
+        public TKey Id { get; set; }
+        public BaseViewModel(TKey id)
         {
             Id = id;
         }

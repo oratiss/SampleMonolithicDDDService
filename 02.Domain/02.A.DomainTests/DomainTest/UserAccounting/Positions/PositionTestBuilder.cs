@@ -19,7 +19,7 @@ namespace DomainTest.UserAccounting.Positions
         public string CustomesCode = someCustomesCode;
         public string Description = someDescription;
         public bool IsActive=someIsActive;
-        public int RoleId = someRoleId;
+        public long RoleId = someRoleId;
 
         public PositionTestBuilder()
         {
